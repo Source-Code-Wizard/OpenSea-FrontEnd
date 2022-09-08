@@ -13,6 +13,7 @@ import FullAuction from './components/FullAuction';
 import "./App.css";
 import "./index.css";
 import BidTable from './components/BidTable';
+import CreateAuction from './components/CreateAuction';
 
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
           
                     <Route element={<RolesBasedAuth allowedRoles={["ADMIN"]} />}>  
                         <Route path='AdminPage' element={<AdminPage />} />
+                    </Route>
+                    <Route element={<RolesBasedAuth allowedRoles={["ADMIN","SELLER"]} />}>  
+                        <Route path='CreateAuction' element={<CreateAuction />} />
                     </Route>
           
                     <Route path='*' element={<PageNotFound />} />
