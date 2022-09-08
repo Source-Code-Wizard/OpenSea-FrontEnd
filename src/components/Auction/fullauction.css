@@ -1,0 +1,73 @@
+.fullauction-body{
+    height: 100vh;
+    text-align: center;
+    justify-content: center;
+   /*margin-left: 43%;*/
+    font-family: var(--font-family);
+    font-size: 18px;
+}
+.hello{
+    flex:2;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5%;
+}
+.bidTable{
+   /* text-align: center;
+    justify-content: center; 
+    font-family: var(--font-family);
+    width: 30%;
+    font-size: 18px;
+    margin-top: 5%;
+    border-radius: 12px 12px 12px 12px;
+   */
+   width: 30%;
+}
+ .table{
+    left: 50%;
+    top: 50%;
+    
+    text-align: center;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-shadow: 0 2px 15px rgba(64,64,64,.7);
+    border-radius: 12px 12px 12px 12px;
+    overflow: hidden;
+    border-radius: 12px 12px 12px 12px;
+    font-size: 17px;
+    font-family: var(--font-family);
+   }    
+
+th{
+    background-color: #ba68c8;
+    font-family: 'Open Sans',Sans-serif;
+    font-weight: 200;
+    text-transform: uppercase;
+   
+   }
+tr{
+    width: 100%;
+    background-color: #fafafa;
+    font-family: 'Montserrat', sans-serif;
+   }
+
+.full_auction_body-btn{
+    margin-top: 2%;
+    display: inline;
+    width: 100%;
+    border-radius: 10px;
+    margin-right: 2%;
+    box-sizing: border-box;
+    font-size: 16px;
+    justify-content: center;
+    padding:1rem 1.75rem;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    text-align: center;
+    background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
+    color: #FFFFFF;
+}
