@@ -1,0 +1,93 @@
+.Request_table{
+    background-color: #ba68c8;
+    text-align: center;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-shadow: 0 2px 15px rgba(64,64,64,.7);
+    border-radius: 12px 12px 12px 12px;
+    overflow: hidden;
+    border-radius: 12px 12px 12px 12px;
+    font-size: 17px;
+    font-family: var(--font-family);
+   }    
+
+.Request_table th{
+    background-color: #ba68c8;
+    font-family: 'Open Sans',Sans-serif;
+    font-weight: 200;
+    text-transform: uppercase;
+   
+}
+.Request_table tr{
+    width: 100%;
+    background-color: #fafafa;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.adminPage{
+    margin-top: 3%;
+    text-align: center;
+    justify-content: center;
+    height: 100vh;
+}
+.adminPage_h1{
+    text-align: center;
+      padding: 20px 0;
+      color: #999; 
+}
+.Request_table_parent{
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+    border-collapse: collapse;
+    background-color: #ba68c8;
+    box-shadow: 0 2px 15px rgba(64,64,64,.7);
+    border-radius: 12px 12px 12px 12px;
+    overflow: hidden;
+
+}
+
+.Request_table_button{
+    display: inline;
+    width: 100%;
+    border-radius: 10px;
+    margin-right: 2%;
+    box-sizing: border-box;
+    font-size: 15px;
+    justify-content: center;
+    padding:0.5rem 1.25rem;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    text-align: center;
+    background-image: linear-gradient(-180deg, #bb6ae0 0%, #bb63af 100%);
+    color: #FFFFFF;
+}
+
+
+.adminPage_button{
+    margin-top: 3%;
+    border-radius: 0.5rem;
+    margin-right: 2%;
+    box-sizing: border-box;
+    font-size: 16px;
+    justify-content: center;
+    padding:1rem 1.75rem;
+    text-decoration: none;
+    width: 7%;
+    border: 0;
+    cursor: pointer;
+    user-select: none;  
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    /*background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);*/
+    background-image: linear-gradient(-180deg, #bb6ae0 0%, #bb63af 100%);
+    color: #FFFFFF;
+}
+
+.adminPage_button:hover{
+    background-image: linear-gradient(-180deg, #a464c2 0%, #97558e 100%);
+}
