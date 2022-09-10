@@ -51,6 +51,37 @@ export default function DisplayAuctions() {
         };
         fetchAuctions();
     }
+    function showRecommended(event, param) { 
+        event.preventDefault()
+        const loggedInUser = localStorage.getItem("user");
+        //console.log(loggedInUser);
+        if (loggedInUser) {
+            const foundUser = JSON.parse(loggedInUser);
+            console.log(foundUser);
+            const username = foundUser?.username;
+            
+            const fetchAuctions = async () => {
+                console.log("async");
+                console.log(param);
+                let id = 0;
+                const response = await axios.get(`/api/recommendation/auctions`,
+                    {
+                        headers: { "Content-Type": "application/json" },
+                        withCredentials: true,
+                        params: {
+                            username: username
+                        }
+                    });
+                console.log(response);
+                setAuctionsArray(response.data);
+                setCategory(param);
+            };
+            fetchAuctions();
+        } else { 
+            setAuctionsArray([]);
+        }
+       
+    }
 
     /*React.useEffect(() => { 
         console.log("inside useEffect");
@@ -134,7 +165,7 @@ export default function DisplayAuctions() {
                         </li>
 
                         <li>
-                            <Link className="auctions-link" to="#"  onClick={event=>submitCategory(event,"suggested")}>Suggested</Link>
+                            <Link className="auctions-link" to="#"  onClick={event=>showRecommended(event,"suggested")}>Suggested</Link>
                         </li>
 
                     </ul>

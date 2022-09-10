@@ -21,24 +21,11 @@ export default function FullAuction() {
     const [bidList, setBidList] = React.useState([]);
     const [count, setCount] = React.useState(0);
     const [isUserLoggedIn, setIsUserLoggedIn] = React.useState();
+    const [bidConfirmation, setBConfirmation] = React.useState(false);
+    const [visibleBidButton, setVisibleBidButton] = React.useState(true);
     const [isAdmin, setIsAdmin] = React.useState(false);
     const [serverResponse, setServerResponse] = React.useState("");
 
-
-    const fieldsAsStrings = [
-
-        "itemId",
-        "name",
-        "buyPrice",
-        "location",
-        "auctionStartedTime",
-        "auctionEndTime",
-        "seller" ,
-            "rating",
-        "username"
-        
-      ];
-    
 
     const navigateTo = useNavigate();
     const from = "/OpenSea/Auctions";
@@ -87,6 +74,7 @@ export default function FullAuction() {
     function handleChange(event) {
         const {name, value, type, checked} = event.target
         setBid(value);
+        setServerResponse("");  
         console.log(value);
     }
 
@@ -125,7 +113,13 @@ export default function FullAuction() {
         })
         a.dispatchEvent(clickEvt)
         a.remove()
-      }
+    }
+    
+    function ConfirmBid(event) { 
+        event.preventDefault();
+        setVisibleBidButton(false);
+        setBConfirmation(true);
+    }
    
     function PlaceBid(event) { 
         event.preventDefault();
@@ -171,12 +165,17 @@ export default function FullAuction() {
                     withCredentials: true,
                 })
             .then(function (response) {
-                if (response.data.statusCodeValue === 400)
+                if (response.data.statusCodeValue === 400) { 
                     setServerResponse(response.data.body);
+                    setVisibleBidButton(true);
+                    setBConfirmation(false);
+                }
                 else {
                     console.log(response);
                     setBid("");
                     setServerResponse("");    
+                    setVisibleBidButton(true);
+                    setBConfirmation(false);
                     setCount(count + 1);
                 }
             })
@@ -222,16 +221,20 @@ export default function FullAuction() {
                             onChange={handleChange}
                             value={bid}
                         />}
-                            {isUserLoggedIn &&
-                                <button className="full_auction_body-btn" variant="primary" onClick={PlaceBid}>Place bid</button>
+                            {isUserLoggedIn && visibleBidButton &&
+                                <button className="full_auction_body-btn" variant="primary" onClick={ConfirmBid}>Place bid</button>
                             }
+                        
+                        {isUserLoggedIn && bidConfirmation &&
+                                <button className="full_auction_body-btn" variant="primary" onClick={PlaceBid}>Confirm bid</button>
+                        }
 
                         <button className="full_auction_body-btn" variant="primary" onClick={() => { navigateTo(from, { replace: true }); }}>go back</button>
                         {isAdmin &&
-                            <button className="full_auction_body-btn" variant="primary" onClick={ExportToXML}>Export to XML</button>
+                            <button className="full_auction_body-btn" variant="primary" onClick={ExportToXML}>Export as XML</button>
                         }
                         {isAdmin &&
-                            <button className="full_auction_body-btn" variant="primary" onClick={exportToJson}>Export to JSON</button>
+                            <button className="full_auction_body-btn" variant="primary" onClick={exportToJson}>Export as JSON</button>
                         }
                         
                     </Card.Body>

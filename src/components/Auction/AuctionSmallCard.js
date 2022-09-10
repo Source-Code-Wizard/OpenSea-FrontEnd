@@ -10,40 +10,26 @@ export default function AuctionSmallCard({ props }) {
 
 
     function trackUserHistory(event, id) {
-        var loggedInUserHistory = localStorage.getItem('userHistory');
+
         const loggedInUser = localStorage.getItem("user");
         let userToken;
+        let username;
         //console.log(loggedInUser);
         if (loggedInUser) {
-            const foundUser = JSON.parse(loggedInUser);            
+            const foundUser = JSON.parse(loggedInUser);
             userToken = foundUser?.token;
-        } 
-        //console.log(loggedInUser);
-        if (loggedInUserHistory) {
-          
-            var idArray = [];
-            var isUnique = true;
-            idArray = JSON.parse(loggedInUserHistory);
-            idArray.map(eachId => {
-                if(eachId === id) {
-                    isUnique = false;
+            username = foundUser?.username;
+            /* Send the post request to train the recommendation algorithm */
+            axios.post('/api/auctionViews/postView', JSON.stringify(
+                {
+                    "username": username,
+                    "auctionId": id
+                
                 }
-            })
-            if (isUnique) { 
-                idArray.push(id);
-                console.log(idArray);
-                localStorage.setItem('userHistory', JSON.stringify(idArray));
-
-                /* Send the post request to train the recommendation algorithm */
-                axios.post('/api/auctions/trainAlgo', JSON.stringify(
-                    {
-                            "auctionIdsList":idArray
-                    }
                 ),
                 {
-                headers: { "Content-Type": "application/json", Authorization: `Bearer ${userToken}` },
-                withCredentials: true,
-                
+                    headers: { "Content-Type": "application/json", Authorization: `Bearer ${userToken}` },
+                    withCredentials: true,
                 })
                 .then(function (response) {
                     console.log(response);
@@ -52,7 +38,8 @@ export default function AuctionSmallCard({ props }) {
                     console.log(error);
                 });
         }
-        } 
+        
+         
       }
       
 
