@@ -1,13 +1,24 @@
 import React from "react";
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate,useLocation } from 'react-router-dom';
 import axios from "../../api/axios";
 import UserReqsTable from "./UserReqsTable";
+import useAxiosPrivate from "../../api/useAxiosPrivate";
+import useAuth from "../Authentication/useAuth";
 
 export default function AdminPage() {
 
     const [userRequests, setUserRequests] = React.useState([]);
     const [adminToken, setAdminToken] = React.useState();
     const [count, Setcount] = React.useState(0);
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { setAuth } = useAuth();
+
+    const logout = async () => { 
+        setAuth({})
+        localStorage.clear();
+    }
         
     React.useEffect(() => {
 
@@ -18,7 +29,7 @@ export default function AdminPage() {
             admintoken = foundUser?.token;
         } 
         console.log(admintoken);
-        axios.get(`/api/admin/getRegRequests`,
+        axiosPrivate.get(`/api/admin/getRegRequests`,
             {
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${admintoken}`},
                 withCredentials: true,
@@ -29,7 +40,11 @@ export default function AdminPage() {
             setAdminToken(admintoken);
         })
         .catch(function (error) {
-          console.log(error);
+            console.log(error);
+            if (error.response.status === 403) { 
+                logout();
+                navigate('/OpenSea/SignIn', { state: { from: location }, replace: true });
+            }
         });
     }, [count]);
 

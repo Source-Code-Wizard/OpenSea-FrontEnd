@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import axios from "../../api/axios";
+import useAxiosPrivate from "../../api/useAxiosPrivate";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
@@ -8,6 +9,7 @@ import './fullauction.css'
 import { Link, Outlet, useNavigateLink, useNavigate, useLocation} from 'react-router-dom';
 import BidTable from "./BidTable";
 import exportFromJSON from "export-from-json";
+import useAuth from "../Authentication/useAuth";
 
 
 
@@ -25,6 +27,10 @@ export default function FullAuction() {
     const [visibleBidButton, setVisibleBidButton] = React.useState(true);
     const [isAdmin, setIsAdmin] = React.useState(false);
     const [serverResponse, setServerResponse] = React.useState("");
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { setAuth } = useAuth();
 
 
     const navigateTo = useNavigate();
@@ -120,6 +126,11 @@ export default function FullAuction() {
         setVisibleBidButton(false);
         setBConfirmation(true);
     }
+
+    const logout = async () => { 
+        setAuth({})
+        localStorage.clear();
+    }
    
     function PlaceBid(event) { 
         event.preventDefault();
@@ -153,7 +164,7 @@ export default function FullAuction() {
 
             console.log(token);
             
-            axios.post('/api/bid', JSON.stringify(
+            axiosPrivate.post('/api/bid', JSON.stringify(
                 {
                     "username": username,
                     "bidSubmittedTime": date ,
@@ -178,9 +189,13 @@ export default function FullAuction() {
                     setBConfirmation(false);
                     setCount(count + 1);
                 }
-            })
-            .catch(function (error) {
+            }).catch(function (error) {
                 console.log(error);
+                if (error.response.status === 403) { 
+                    logout();
+                    navigate('/OpenSea/SignIn', { state: { from: location }, replace: true });
+                }
+                    
             });
         } 
 

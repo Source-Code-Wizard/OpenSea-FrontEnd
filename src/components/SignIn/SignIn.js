@@ -44,9 +44,10 @@ export default function SignUp() {
               const token = response?.data?.token;
               const roles = response?.data?.roles;
               const userEmail = response?.data.email;
+              const refreshToken = response?.data.refreshToken;
               let foundAdmin = false;
               
-              setAuth({ username, userEmail, roles, token });
+              setAuth({ username, userEmail, roles, token,refreshToken});
               localStorage.setItem('user', JSON.stringify(response.data));
               let auctionHistory = [];
               localStorage.setItem('userHistory', JSON.stringify(auctionHistory));
@@ -80,8 +81,9 @@ export default function SignUp() {
             const token = foundUser?.token;
             const userEmail = foundUser?.email;
             const username = foundUser?.username;
+            const refreshToken = foundUser?.refreshToken;
             
-            setAuth({ username, userEmail, roles, token });
+            setAuth({ username, userEmail, roles, token,refreshToken });
             navigateTo(from, {replace:true});
         } 
     }, []);

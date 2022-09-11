@@ -2,10 +2,23 @@ import React from "react";
 import Table from 'react-bootstrap/Table';
 import './UserReqsTable.css'
 import axios from "../../api/axios";
-import { Link, Outlet, useNavigate} from 'react-router-dom';
+import { Link, Outlet, useNavigate,useLocation } from 'react-router-dom';
+import useAxiosPrivate from "../../api/useAxiosPrivate";
+import useAuth from "../Authentication/useAuth";
 
 
-export default function UserReqsTable({ requestList, Token,refreshFunction }) {
+export default function UserReqsTable({ requestList, Token, refreshFunction }) {
+    
+
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { setAuth } = useAuth();
+
+    const logout = async () => { 
+        setAuth({})
+        localStorage.clear();
+    }
     
     
     function RegisterUser(event, userName) { 
@@ -19,7 +32,7 @@ export default function UserReqsTable({ requestList, Token,refreshFunction }) {
             const foundUser = JSON.parse(loggedInUser);
             admintoken = foundUser?.token;
         } 
-        axios.post(`/api/admin/getRegRequests/a`,
+        axiosPrivate.post(`/api/admin/getRegRequests/a`,
             JSON.stringify({
                 "username": userName
             }),
@@ -34,6 +47,11 @@ export default function UserReqsTable({ requestList, Token,refreshFunction }) {
           })
           .catch(function (error) {
               console.log(error);
+              console.log(error);
+              if (error.response.status === 403) { 
+                  logout();
+                  navigate('/OpenSea/SignIn', { state: { from: location }, replace: true });
+              }
           });
     }
 
