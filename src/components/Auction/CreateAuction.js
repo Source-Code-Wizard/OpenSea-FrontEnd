@@ -10,12 +10,18 @@ let newList = [];
 export default function CreateAuction() {
 
     const [count, setCount] = React.useState(0);
+    const [AuctionCreatedMsg, setAuctionCreatedMsg] = React.useState("");
     const [isUserLoggedIn, setIsUserLoggedIn] = React.useState();
     const axiosPrivate = useAxiosPrivate();
     const [isAdmin, setIsAdmin] = React.useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const { setAuth } = useAuth();
+
+    const logout = async () => { 
+        setAuth({})
+        localStorage.clear();
+    }
 
 
     React.useEffect(() => {
@@ -64,6 +70,9 @@ export default function CreateAuction() {
     function handleChange(event) {
         
         const { name, value, type, checked } = event.target
+
+        console.log("name is " + name);
+        
        
         console.log(event.target.name)
         // console.log(event.target.checked)
@@ -72,12 +81,25 @@ export default function CreateAuction() {
             [name]: type === "checkbox" ? checked : value
         }))
 
-        if(type === "checkbox" && checked == true){
-            newList.push(event.target.name)
-            console.log(newList)
-            setCategories(newList)
-        }
+        if (type === "checkbox" && checked == true) {
+            setCategories(prev => [ ...prev, name ]);
+        } else if (type === "checkbox" && checked == false) {
+            let indexForRemoval = 0;
+            let counter = 0;
+            listOfCategories.map(eachCategory => {
+                if (eachCategory === name) { 
+                    indexForRemoval = counter;
+                    console.log("INDEX IS : " + indexForRemoval);
+                }
+                counter++;
+             })
+            const newCategoriesList = listOfCategories.filter((category,index) => index !== indexForRemoval);
+            setCategories(newCategoriesList);
+         }
     }
+    React.useEffect(() => {
+        console.log("CATEGORIES ARE : " +listOfCategories);
+    },[listOfCategories])
 
     const [formData, setFormData] = React.useState({
         name:"",
@@ -137,7 +159,7 @@ export default function CreateAuction() {
         console.log(admintoken)
         console.log(userName);
 
-        axios.post(`/api/auctions`, JSON.stringify(formData),
+        axiosPrivate.post(`/api/auctions`, JSON.stringify(formData),
         {
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${admintoken}`},
             withCredentials: true,
@@ -147,10 +169,14 @@ export default function CreateAuction() {
         })
         .then(function (response) {
             console.log(response);
+            setAuctionCreatedMsg("Auction has been created successfully!");
         })
         .catch(function (error) {
             console.log(error);
-            
+            if (error.response.status === 403) { 
+                logout();
+                navigate('/OpenSea/SignIn', { state: { from: location }, replace: true });
+            }
         });
 
         // const loggedInUser = localStorage.getItem("user");
@@ -332,6 +358,7 @@ export default function CreateAuction() {
 
             {(error !== "") ? (<label>{error}</label>) : ("")}
                 {(serverResponse !== "") ? (<label>{serverResponse}</label>) : ("")}
+                {(AuctionCreatedMsg !== "") ? (<label>{AuctionCreatedMsg}</label>) : ("")}
             </form>
         </div>
     )
