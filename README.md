@@ -1,3 +1,16 @@
+# 	:computer: OpenSea
+
+OpenSea is a Web application that handles auctions , implemented using Spring boot and React.js
+
+
+# :globe_with_meridians: Frontend implementation
+
+:heavy_check_mark: Frontend was made using React.js ,CSS and React-Bootstrap.
+
+## Appendix
+
+This project is introduced as an assignment for the Web-applications Implementation course (NKUA) with a deadline until 30/9/2022. This project is 90% finished!
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
