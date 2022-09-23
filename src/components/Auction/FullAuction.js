@@ -10,6 +10,7 @@ import { Link, Outlet, useNavigateLink, useNavigate, useLocation} from 'react-ro
 import BidTable from "./BidTable";
 import exportFromJSON from "export-from-json";
 import useAuth from "../Authentication/useAuth";
+import Redirect from "../ExpRefTokenHandler/Redirect";
 
 
 
@@ -31,6 +32,7 @@ export default function FullAuction() {
     const navigate = useNavigate();
     const location = useLocation();
     const { setAuth } = useAuth();
+
 
 
     const navigateTo = useNavigate();
@@ -190,16 +192,25 @@ export default function FullAuction() {
                     setCount(count + 1);
                 }
             }).catch(function (error) {
-                console.log(error);
+                console.log(error); 
                 if (error.response.status === 403) { 
                     logout();
                     navigate('/OpenSea/SignIn', { state: { from: location }, replace: true });
-                }
-                    
+                }     
             });
         } 
 
     }
+
+    let categoriesString = "";
+    let numOfCategories = 0;
+    categories?.map(eachAuction => {
+        numOfCategories++;
+        if (numOfCategories === 1)
+            categoriesString += eachAuction.caterogoryName;
+        else
+            categoriesString +=" , "+eachAuction.caterogoryName;
+    })
 
     return (
         <section className="hello">
@@ -216,12 +227,13 @@ export default function FullAuction() {
                             <ListGroup.Item>Auction Started Time : {auction.auctionStartedTime}</ListGroup.Item>
                             <ListGroup.Item>Auction End Time : {auction.auctionEndTime}</ListGroup.Item>
                             <ListGroup.Item>Currently : {auction.currently} $</ListGroup.Item>
-                            {categories?.map(eachAuction => {
+                            <ListGroup.Item>Categories : {categoriesString} </ListGroup.Item>
+                            {/*categories?.map(eachAuction => {
                                 return (
                                     <>
                                         <ListGroup.Item key={ eachAuction.categoryId}>Category : {eachAuction.caterogoryName}</ListGroup.Item>
                                     </>)
-                            })}
+                            })*/}
                         </ListGroup>
                         <Card.Body>
                         <Card.Title>Description</Card.Title>
