@@ -4,6 +4,7 @@ import "./myCss.css";
 
 
 export default function SignUp() { 
+    
     const [formData, setFormData] = React.useState({
         username:"",
         email: "",

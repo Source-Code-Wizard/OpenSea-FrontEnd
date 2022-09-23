@@ -1,0 +1,30 @@
+.hello{
+    flex:2;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2%;
+    margin-bottom: 100%;
+
+
+}
+
+.body{
+    text-align: center;
+}
+
+
+
+.h1{
+    font-size: 50px;
+    letter-spacing: -0.04em;
+    text-align: center;
+    color: #81AFDD;
+    font-weight: bold;
+}   
+
+.cards{
+    justify-content: left;
+    font-size: 18px;
+    list-style: none;
+    margin-top: 50%;  
+}

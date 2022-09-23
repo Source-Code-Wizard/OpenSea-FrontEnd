@@ -11,7 +11,7 @@ export default function Hero() {
             
             <div className="hero-buttons">
                 
-                <Link style={{ textDecoration: 'none' }} to="#">
+                <Link style={{ textDecoration: 'none' }} to="/OpenSea/CreateAuction">
                     <button type="submit" className="create-btn">Create</button>
                 </Link>
                 

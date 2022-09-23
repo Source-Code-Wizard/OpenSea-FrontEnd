@@ -126,7 +126,7 @@ export default function Navbar() {
                 {
                     isUserLoggedIn &&
                     <li>
-                        <Link  className="nav-link" to="#" >My auctions</Link>
+                        <Link  className="nav-link" to="/OpenSea/MyAuctions" >My auctions</Link>
                     </li>
                 }
 

@@ -15,6 +15,7 @@ import "./App.css";
 import "./index.css";
 import BidTable from './components/Auction/BidTable';
 import DisplayUser from './components/AdminPage/DisplayUser';
+import MyAuctions from './components/Auction/MyAuctions';
 
 
 function App() {
@@ -56,7 +57,7 @@ function App() {
                         <Route path='CreateAuction' element={<CreateAuction />} />
                     </Route>
             
-                    <Route path='*' element={<PageNotFound />} />
+                    <Route path='MyAuctions' element={<MyAuctions />} />
             
                     <Route exact path="Auctions/:id" element={<FullAuction />} />
                     
