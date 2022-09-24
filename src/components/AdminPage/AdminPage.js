@@ -14,6 +14,7 @@ export default function AdminPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const { setAuth } = useAuth();
+    const from = location.state?.from?.pathname || "/OpenSea/Auctions";
 
     const logout = async () => { 
         setAuth({})
@@ -55,9 +56,7 @@ export default function AdminPage() {
             <div className="Request_table_parent">
                 <UserReqsTable className="Request_table" requestList={userRequests} Token={adminToken} refreshFunction={Setcount} />
             </div>
-            <Link style={{ textDecoration: 'none' }} to="/OpenSea">
-                <button className="adminPage_button">Go home</button>
-            </Link>
+                <button className="adminPage_button" onClick={() => { navigate(from) }}>Go back</button>
         </section>
     );
  }

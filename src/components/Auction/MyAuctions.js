@@ -5,6 +5,7 @@ import axios from "../../api/axios";
 import Pagination from "./Pagination";
 import Auctions from "./Auctions";
 import './myauctions.css';
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 
 export default function MyAuctions(){
     const [myAuctions, setMyAuctions] = useState([]);
@@ -17,6 +18,11 @@ export default function MyAuctions(){
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentPosts = myAuctions.slice(indexOfFirstPost, indexOfLastPost);
     const paginate = pageNumber => setCurrentPage(pageNumber);
+
+    const location = useLocation();
+    const navigateTo = useNavigate();
+    const from = location.state?.from?.pathname || "/OpenSea/Auctions";
+
 
 
     let id;
@@ -75,7 +81,9 @@ export default function MyAuctions(){
 
                 <li className="my_actions_pagination">
                     <Pagination postsPerPage={postsPerPage} totalPosts={myAuctions.length} paginate={ paginate} />
-                </li>                            
+                </li>    
+                
+                <button type="submit" className="my_auctions_button" onClick={() => { navigateTo(from) }}>go back</button>
             </div>
         
         </section>

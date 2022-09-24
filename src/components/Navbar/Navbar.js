@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import useAuth from "../Authentication/useAuth";
 import "./Navbar.css"
 import axios from "../../api/axios";
@@ -10,6 +10,7 @@ import axios from "../../api/axios";
 export default function Navbar() {
     const { setAuth } = useAuth();
     const navigateTo = useNavigate();
+    const location = useLocation();
     
     const logout = async () => { 
         setAuth({})
@@ -102,17 +103,17 @@ export default function Navbar() {
             </div>
             <ul>
                 <li>
-                    <Link className="nav-link" to="/OpenSea">Home</Link>
+                    <Link className="nav-link" to="/OpenSea" state={{ from: location }} >Home</Link>
                 </li>
                 {!isUserLoggedIn &&
                      <li>
-                     <Link  className="nav-link" to="/OpenSea/SignIn">Sign In</Link>
+                     <Link  className="nav-link" to="/OpenSea/SignIn" state={{ from: location }}>Sign In</Link>
                  </li>       
                 }
     
                 {!isUserLoggedIn &&
                     <li>
-                        <Link className="nav-link" to="/OpenSea/SignUp">Sign Up</Link>
+                        <Link className="nav-link" to="/OpenSea/SignUp" state={{ from: location }}>Sign Up</Link>
                     </li>
                 }
                     
@@ -126,14 +127,14 @@ export default function Navbar() {
                 {
                     isUserLoggedIn &&
                     <li>
-                        <Link  className="nav-link" to="/OpenSea/MyAuctions" >My auctions</Link>
+                        <Link  className="nav-link" to="/OpenSea/MyAuctions" state={{ from: location }} >My auctions</Link>
                     </li>
                 }
 
                 {
                     isAdmin &&
                     <li>
-                        <Link  className="nav-link" to="/OpenSea/AdminPage">Requests</Link>
+                        <Link  className="nav-link" to="/OpenSea/AdminPage" state={{ from: location }}>Requests</Link>
                     </li>
                 }
                
