@@ -4,8 +4,10 @@ import "./createAuction.css";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 import { Link, Outlet, useNavigate, useLocation} from 'react-router-dom';
 import useAuth from "../Authentication/useAuth";
+import {MapContainer, Marker, TileLayer} from "react-leaflet";
+import L from "leaflet";
 
-let newList = [];
+
 
 export default function CreateAuction() {
 
@@ -17,10 +19,27 @@ export default function CreateAuction() {
     const navigate = useNavigate();
     const location = useLocation();
     const { setAuth } = useAuth();
+    const markerRef = React.useRef();
+    const [position, setPosition] = React.useState([37.983810, 23.727539])
 
     const logout = async () => { 
         setAuth({})
         localStorage.clear();
+    }
+
+    const [markerPos, setMarkerPos] = React.useState({
+        lat: 37.983810,
+        lng: 23.727539,
+    })
+
+    const onMapClick = (event) => {
+        const marker = markerRef.current
+        console.log("marker" + marker._latlng)
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            ["lat"]: marker._latlng.lat,
+            ["lng"]:marker._latlng.lng
+        }))
     }
 
 
@@ -41,9 +60,6 @@ export default function CreateAuction() {
             {
                 headers: { "Content-Type": "application/json"},
                 withCredentials: true,
-                // params: {
-                //     username: userName
-                // }
             })
             .then(function (response) {
                 console.log(response.data);
@@ -53,15 +69,6 @@ export default function CreateAuction() {
                 console.log(error);
                 
             });
-            // const roles = foundUser?.roles;
-            // let foundAdmin = false;
-            // roles.map(eachRole => { 
-            //     if (eachRole === 'ADMIN') {
-            //         foundAdmin = true;
-            //     }
-            // })
-            // if (foundAdmin)
-            //     setIsAdmin(true);
         } 
     }, []);
 
@@ -117,9 +124,9 @@ export default function CreateAuction() {
         Technology: false,
         Mobile: false,
         Sports: false,
-        Suggested: false
-        // started: Date.now(),
-        // joinedOpenSea: false
+        Suggested: false,
+        lat: 37.983810,
+        lng: 23.727539,
     })
 
     React.useEffect(() => {
@@ -163,9 +170,6 @@ export default function CreateAuction() {
         {
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${admintoken}`},
             withCredentials: true,
-            // params: {
-            //     username: userName
-            // }
         })
         .then(function (response) {
             console.log(response);
@@ -179,36 +183,6 @@ export default function CreateAuction() {
             }
         });
 
-        // const loggedInUser = localStorage.getItem("user");
-        // //console.log(loggedInUser);
-        // if (loggedInUser) {
-        //     const foundUser = JSON.parse(loggedInUser);
-
-        //     // console.log(foundUser);
-        //     const username = foundUser?.username;
-        //     const token = foundUser?.token;
-
-        //     console.log(token);
-        //     axiosPrivate.post('/api/auctions', JSON.stringify(formData, {
-        //         "sellerId": foundUser?.id
-        //     }),
-        //         {
-        //         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`},
-        //         withCredentials: true,
-        //     })
-        //     .then(function (response) {
-        //         console.log(response);
-        //         setServerResponse(response.data.body);
-        //         setCount(count + 1);
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //         if (error.response.status === 403) { 
-        //             logout();
-        //             navigate('/OpenSea/SignIn', { state: { from: location }, replace: true });
-        //         }
-        //     });
-        // }
     }
 
  
@@ -230,17 +204,6 @@ export default function CreateAuction() {
                 />    
             </div>
 
-            {/* <div className="txt_field">
-                <input 
-                    type="text" 
-                    placeholder="ListofCategories"
-                    className="form-control"
-                    name="listOfCategories"
-                    onChange={handleChange}
-                    value={formData.listOfCategories}
-                />    
-            </div> */}
-
             <div className="txt_field">
                 <input 
                     type="datetime-local" 
@@ -252,6 +215,8 @@ export default function CreateAuction() {
                     pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
                 />    
             </div>
+                
+
 
             <div className="txt_field">
                 <input 
@@ -351,7 +316,28 @@ export default function CreateAuction() {
                     Sports
                 </label>
             </div>
-
+            <h3 className="h3">Choose location </h3>
+            <div className='add-item-map'>
+                    <link
+                        rel="stylesheet"
+                        href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+                        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+                        crossOrigin=""
+                    />
+                    <MapContainer center={position} zoom={13} scrollWheelZoom={true}>
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        />
+                        <Marker
+                            position={[markerPos.lat, markerPos.lng]}
+                            draggable={true}
+                            eventHandlers={{dragend: onMapClick}}
+                            ref={markerRef}
+                        />
+                    </MapContainer>
+            </div>    
+                
             <div className="form-group">
                 <button type="submit" class="btn btn-primary btn-lg">Create</button>
             </div>
@@ -360,6 +346,9 @@ export default function CreateAuction() {
                 {(serverResponse !== "") ? (<label>{serverResponse}</label>) : ("")}
                 {(AuctionCreatedMsg !== "") ? (<label>{AuctionCreatedMsg}</label>) : ("")}
             </form>
+
+           
+           
         </div>
     )
 }

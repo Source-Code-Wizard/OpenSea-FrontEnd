@@ -11,6 +11,8 @@ import BidTable from "./BidTable";
 import exportFromJSON from "export-from-json";
 import useAuth from "../Authentication/useAuth";
 import Redirect from "../ExpRefTokenHandler/Redirect";
+import {MapContainer, Marker, TileLayer} from "react-leaflet";
+import L from "leaflet";
 
 
 
@@ -32,7 +34,9 @@ export default function FullAuction() {
     const navigate = useNavigate();
     const location = useLocation();
     const { setAuth } = useAuth();
-
+    const [latitude, setLatitude] = React.useState(0);
+    const [longtitude, setLongtitude] = React.useState(0);
+   
 
     //const from = "/OpenSea/Auctions";
     const from = location.state.from?.pathname || "/OpenSea/Auctions";
@@ -62,14 +66,19 @@ export default function FullAuction() {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
             })
-        .then(function (response) {
-            console.log(response.data);
-            console.log("h33");
-            setAuction(response.data);
-            setCategories(response.data.categories);
-            const bidArray = response.data.bidList;
-            const bidArraySorted = [...bidArray].sort((a, b) => b.moneyAmount - a.moneyAmount);
-            setBidList(bidArraySorted);
+            .then(function (response) {
+                console.log(response.data);
+                console.log("h33");
+                setAuction(response.data);
+                setCategories(response.data.categories);
+                const bidArray = response.data.bidList;
+                const bidArraySorted = [...bidArray].sort((a, b) => b.moneyAmount - a.moneyAmount);
+                setBidList(bidArraySorted);
+                setMarkerPos({
+                    lat: response.data.latitude,
+                    lng: response.data.longtitude
+                })
+                setPosition([response.data.latitude,response.data.longtitude])
         })
         .catch(function (error) {
             console.log(error);
@@ -212,6 +221,16 @@ export default function FullAuction() {
             categoriesString +=" , "+eachAuction.caterogoryName;
     })
 
+    const [markerPos, setMarkerPos] = React.useState([{
+        lat: 0,
+        lng: 0
+    }])
+
+    const markerRef = React.useRef();
+
+    const [position, setPosition] = React.useState([])
+
+
     return (
         <section className="hello">
             <form className="fullauction-body">
@@ -227,19 +246,37 @@ export default function FullAuction() {
                             <ListGroup.Item>Auction Started Time : {auction.auctionStartedTime}</ListGroup.Item>
                             <ListGroup.Item>Auction End Time : {auction.auctionEndTime}</ListGroup.Item>
                             <ListGroup.Item>Currently : {auction.currently} $</ListGroup.Item>
-                            <ListGroup.Item>Categories : {categoriesString} </ListGroup.Item>
-                            {/*categories?.map(eachAuction => {
-                                return (
-                                    <>
-                                        <ListGroup.Item key={ eachAuction.categoryId}>Category : {eachAuction.caterogoryName}</ListGroup.Item>
-                                    </>)
-                            })*/}
+                        <ListGroup.Item>Categories : {categoriesString} </ListGroup.Item>
                         </ListGroup>
                         <Card.Body>
                         <Card.Title>Description</Card.Title>
                             <Card.Text>
                                 { auction.description}
-                            </Card.Text>
+                        </Card.Text>
+                        
+                        {   (position.length!==0) &&
+                             <div className='full_auction_map'>
+                             <link
+                                 rel="stylesheet"
+                                 href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+                                 integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+                                 crossOrigin=""
+                             />
+                             <MapContainer center={position} zoom={13} scrollWheelZoom={true}>
+                                 <TileLayer
+                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                 />
+                                 <Marker
+                                     position={[markerPos.lat, markerPos.lng]}
+                                 />
+                             </MapContainer>
+                         </div> 
+ 
+                        }
+                       
+
+
                         {isUserLoggedIn &&
                             <input type="text"
                             placeholder="Place bid"
@@ -247,7 +284,8 @@ export default function FullAuction() {
                             name="bid"
                             onChange={handleChange}
                             value={bid}
-                        />}
+                            />}
+                        
                             {isUserLoggedIn && visibleBidButton &&
                                 <button className="full_auction_body-btn" variant="primary" onClick={ConfirmBid}>Place bid</button>
                             }
@@ -271,6 +309,7 @@ export default function FullAuction() {
             <div className="bidTable">
                 <BidTable className="table" bidList={bidList}/>
             </div>
+
         </section>
     )
 }; 

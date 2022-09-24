@@ -71,3 +71,9 @@ tr{
     background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
     color: #FFFFFF;
 }
+
+.leaflet-container {
+    width: 100%;
+    height: 250px;
+	margin-bottom: 5%;
+}
