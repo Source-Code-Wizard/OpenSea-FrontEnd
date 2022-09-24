@@ -78,7 +78,8 @@ export default function FullAuction() {
                     lat: response.data.latitude,
                     lng: response.data.longtitude
                 })
-                setPosition([response.data.latitude,response.data.longtitude])
+                if(response.data.latitude!==null && response.data.longtitude!==null)
+                    setPosition([response.data.latitude,response.data.longtitude])
         })
         .catch(function (error) {
             console.log(error);
