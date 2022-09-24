@@ -1,30 +1,31 @@
-.hello{
+
+
+.my_auctions_boddy{
+    height: 100vh;
+}
+
+.card_display{
     flex:2;
     display: flex;
     justify-content: space-evenly;
-    margin-top: 2%;
-    margin-bottom: 100%;
-
-
+    margin-top: 5%;
+    margin-left: 8%;
 }
 
-.body{
-    text-align: center;
-}
-
-
-
-.h1{
+.my_auctions_header{
     font-size: 50px;
+    margin-top: 2%;
     letter-spacing: -0.04em;
     text-align: center;
     color: #81AFDD;
     font-weight: bold;
-}   
+}  
 
-.cards{
-    justify-content: left;
-    font-size: 18px;
-    list-style: none;
-    margin-top: 50%;  
+.my_actions_pagination{
+    margin-left: 47%;
+    margin-bottom: 2%;
+    margin-top: 3%;
+    list-style: none; 
 }
+
+

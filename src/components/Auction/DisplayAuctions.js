@@ -13,7 +13,7 @@ export default function DisplayAuctions() {
     const [category, setCategory] = React.useState("");
     const [auctionsArray, setAuctionsArray] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);
-    const [postsPerPage, setPostsPerPage] = React.useState(2);
+    const [postsPerPage, setPostsPerPage] = React.useState(3);
 
     const [filters, setFilters] = React.useState(
         {

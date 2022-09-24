@@ -34,9 +34,9 @@ export default function FullAuction() {
     const { setAuth } = useAuth();
 
 
+    //const from = "/OpenSea/Auctions";
+    const from = location.state.from?.pathname || "/OpenSea/Auctions";
 
-    const navigateTo = useNavigate();
-    const from = "/OpenSea/Auctions";
     
     React.useEffect(() => {
         const loggedInUser = localStorage.getItem("user");
@@ -256,7 +256,7 @@ export default function FullAuction() {
                                 <button className="full_auction_body-btn" variant="primary" onClick={PlaceBid}>Confirm bid</button>
                         }
 
-                        <button className="full_auction_body-btn" variant="primary" onClick={() => { navigateTo(from, { replace: true }); }}>go back</button>
+                        <button className="full_auction_body-btn" variant="primary" onClick={() => { navigate(from) }}>go back</button>
                         {isAdmin &&
                             <button className="full_auction_body-btn" variant="primary" onClick={ExportToXML}>Export as XML</button>
                         }
