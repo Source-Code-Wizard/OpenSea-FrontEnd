@@ -13,6 +13,7 @@ export default function Outbox() {
 
     const [Outbox, setOutbox] = useState([]);
     const [isUserLoggedIn, setIsUserLoggedIn] = React.useState();
+    const [count , setCount] = React.useState(0);
 
     /* Paging */
     const [currentPage, setCurrentPage] = React.useState(1);
@@ -67,7 +68,7 @@ export default function Outbox() {
                 
             });
         } 
-    }, []);
+    }, [count]);
 
     return(
         < section className="inbox_body">
@@ -76,7 +77,7 @@ export default function Outbox() {
              
             <div>
                 <section className="card_display">
-                    <Messages MessageArray={currentPosts} />
+                    <Messages MessageArray={currentPosts} refreshFunction={setCount} />
                 </section>
 
                 <li className="my_actions_pagination">
