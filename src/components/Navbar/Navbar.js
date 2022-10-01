@@ -83,6 +83,7 @@ export default function Navbar() {
                     OpenSea
                 </h1>
             </div>
+            
 
             <div className="search-box">
                 <form action="">
@@ -128,6 +129,13 @@ export default function Navbar() {
                     isUserLoggedIn &&
                     <li>
                         <Link  className="nav-link" to="/OpenSea/MyAuctions" state={{ from: location }} >My auctions</Link>
+                    </li>
+                }
+
+                {
+                    isUserLoggedIn &&
+                    <li>
+                        <Link  className="nav-link" to="/OpenSea/MessagingStartPage" state={{ from: location }} >Messaging</Link>
                     </li>
                 }
 

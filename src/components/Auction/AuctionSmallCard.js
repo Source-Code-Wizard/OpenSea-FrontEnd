@@ -73,7 +73,7 @@ export default function AuctionSmallCard({ props }) {
                 <ListGroup.Item className="auctions_card-body">Location : {props.location}</ListGroup.Item>
                 <ListGroup.Item className="auctions_card-body">Auction End Time : {props.auctionEndTime}</ListGroup.Item>
                 <ListGroup.Item className="auctions_card-body">Currently : {props.currently} $</ListGroup.Item>
-                <ListGroup.Item className="auctions_card-body">Number of Bids : {props.numOfBids} $</ListGroup.Item>
+                <ListGroup.Item className="auctions_card-body">Number of Bids : {props.numOfBids} </ListGroup.Item>
             </ListGroup>
             <Card.Body>
                 <Button variant="primary" onClick={event =>trackUserHistory(event,props.itemId)}>Full details</Button>

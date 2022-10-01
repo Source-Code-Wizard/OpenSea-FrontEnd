@@ -16,6 +16,11 @@ import "./index.css";
 import BidTable from './components/Auction/BidTable';
 import DisplayUser from './components/AdminPage/DisplayUser';
 import MyAuctions from './components/Auction/MyAuctions';
+import MessagingStartPage from './components/Messages/MessagingStartPage';
+import Inbox from './components/Messages/Inbox';
+import Outbox from './components/Messages/Outbox';
+import NewMessage from './components/Messages/NewMessage';
+// import DeleteMessage from './components/Messages/DeleteMessage';
 
 
 function App() {
@@ -68,6 +73,15 @@ function App() {
                     <Route path="unauthorized" element={<Unauthorized />} />
                     
                     <Route path="Auctions" element={<><Navbar /><DisplayAuctions /></>} />
+                    <Route element={<RolesBasedAuth allowedRoles={["ADMIN", "USER"]} />}>
+                      <Route path="MessagingStartPage" element={<MessagingStartPage/>} />
+                    </Route>
+                    <Route path='Inbox' element={<Inbox />} />
+                    <Route path='Outbox' element={<Outbox />} />
+                    <Route path='NewMessage' element={<NewMessage />} />
+                    {/* <Route path='DeleteMessage' element={<DeleteMessage />} /> */}
+
+
                 </Route>
                    
                 

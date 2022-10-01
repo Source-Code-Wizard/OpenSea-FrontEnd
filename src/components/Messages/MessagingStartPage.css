@@ -1,0 +1,111 @@
+.messaging_body{
+    margin-top: 13%;
+    height: 100vh;
+}
+
+.message_header-content{
+    font-family: var(--font-family);
+    font-weight: 800;
+    font-size: 50px;
+    line-height: 75px;
+    letter-spacing: -0.04em;
+    text-align: center;
+    color: #81AFDD;
+    margin-bottom: 10%;
+}
+
+.message-buttons{
+    text-align: center;
+}
+
+.message-buttons button{
+    display: inline;
+    border-radius: 0.5rem;
+    margin-right: 2%;
+    box-sizing: border-box;
+    font-size: 16px;
+    justify-content: center;
+    padding:1rem 1.75rem;
+    text-decoration: none;
+    width: 7%;
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.inbox-btn{
+    background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
+    color: #FFFFFF;
+}
+
+.outbox-btn{
+    color:#37AEE2;
+}
+
+.newmessage-btn{
+    background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
+    color: #FFFFFF;
+}
+
+.inbox-btn:hover {
+  background-image: linear-gradient(-180deg, #FFFFFF 0%, #FFFFFF 100%);
+  color: #37AEE2;
+}
+
+.outbox-btn:hover {
+/*background-image: linear-gradient(-180deg, #acb8be 0%, #6a7479 100%);*/
+background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
+color: #FFFFFF;
+}
+
+
+.newmessage-btn:hover {
+background-image: linear-gradient(-180deg, #FFFFFF 0%, #FFFFFF 100%);
+color: #37AEE2;
+}
+
+.home_button{
+    display: inline;
+    border-radius: 0.5rem;
+    margin-right: 2%;
+    margin-left: 45%;
+    box-sizing: border-box;
+    font-size: 16px;
+    justify-content: center;
+    padding:1rem 1.75rem;
+    text-decoration: none;
+    width: 7%;
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
+    color: #FFFFFF;
+
+}
+
+.home_button button{
+    display: inline;
+    border-radius: 0.5rem;
+    margin-right: 2%;
+    box-sizing: border-box;
+    font-size: 16px;
+    justify-content: center;
+    padding:1rem 1.75rem;
+    text-decoration: none;
+    width: 7%;
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.home_button:hover {
+    /*background-image: linear-gradient(-180deg, #acb8be 0%, #6a7479 100%);*/
+    background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
+    color: #FFFFFF;
+}
