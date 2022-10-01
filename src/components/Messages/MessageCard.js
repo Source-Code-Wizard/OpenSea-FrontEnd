@@ -11,7 +11,7 @@ import Outbox from "./Outbox";
 import Messages from "./Messages";
 
 
-export default function MessageCard({props}){
+export default function MessageCard({eachMessage,refreshFunction}){
 
     const location = useLocation();
     const navigateTo = useNavigate();
@@ -28,7 +28,8 @@ export default function MessageCard({props}){
         console.log(Outbox)
     }, [Outbox]);
 
-    function deleteMessage(event){
+    function deleteMessage(event) {
+        
         const loggedInUser = localStorage.getItem("user");
         let userToken;
         let username;
@@ -55,22 +56,22 @@ export default function MessageCard({props}){
                         navigateTo('/OpenSea/SignIn', { state: { from: location }, replace: true });
                     }     
                 });
-                console.log(JSON.stringify(props));
+                console.log(JSON.stringify(eachMessage));
             axios.get('/api/messages/getMessageId',
                 {
                     headers: { "Content-Type": "application/json" },
                     withCredentials: true,
                     params: {
-                        senderUsername: props.senderUsername,
-                        receiverUsername: props.receiverUsername,
-                        message: props.message,
-                        dateTime: props.dateTime
+                        senderUsername: eachMessage.senderUsername,
+                        receiverUsername: eachMessage.receiverUsername,
+                        message: eachMessage.message,
+                        dateTime: eachMessage.dateTime
                     }
                 })
                 .then(function (response) {
                     console.log(response.data);
                     let messageId = response.data;
-                    if(username === props.senderUsername){
+                    if(username === eachMessage.senderUsername){
                         // console.log(props.senderUsername);
                         axios.post(`api/messages/deleteOutboxMessage/${userId}/${messageId}`,
                         {
@@ -79,6 +80,8 @@ export default function MessageCard({props}){
                         })
                         .then((response) => {
                             // setInbox(response.data);
+
+                            refreshFunction(prevState => prevState + 1);
 
                             console.log(response.data);
                             axios.get(`/api/users/getOutbox/${userId}`).then((response) => {
@@ -98,7 +101,7 @@ export default function MessageCard({props}){
                             }     
                         });
                     }
-                    else if(username === props.receiverUsername){
+                    else if(username === eachMessage.receiverUsername){
                         axios.post(`api/messages/deleteInboxMessage/${userId}/${messageId}`,
                         {
                             headers: { "Content-Type": "application/json" },
@@ -139,10 +142,10 @@ export default function MessageCard({props}){
                 </Card.Text>*/}
             </Card.Body>
             <ListGroup className="list-group-flush" >
-                <ListGroup.Item className="message_card-body">To : {props.receiverUsername}</ListGroup.Item>
-                <ListGroup.Item className="message_card-body">From : {props.senderUsername}</ListGroup.Item>
-                <ListGroup.Item className="message_card-body">Message : {props.message} </ListGroup.Item>
-                <ListGroup.Item className="message_card-body">Message was sent: {props.dateTime}</ListGroup.Item>
+                <ListGroup.Item className="message_card-body">To : {eachMessage.receiverUsername}</ListGroup.Item>
+                <ListGroup.Item className="message_card-body">From : {eachMessage.senderUsername}</ListGroup.Item>
+                <ListGroup.Item className="message_card-body">Message : {eachMessage.message} </ListGroup.Item>
+                <ListGroup.Item className="message_card-body">Message was sent: {eachMessage.dateTime}</ListGroup.Item>
 
                 {/* <ListGroup.Item className="auctions_card-body">Number of Bids : {props.numOfBids} $</ListGroup.Item> */}
             </ListGroup>
