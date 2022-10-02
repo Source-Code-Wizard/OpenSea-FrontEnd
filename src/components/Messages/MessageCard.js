@@ -17,6 +17,7 @@ export default function MessageCard({eachMessage,refreshFunction}){
     const navigateTo = useNavigate();
     const axiosPrivate = useAxiosPrivate();
     const setAuth = useAuth();
+    const [isUserLoggedIn, setIsUserLoggedIn] = React.useState();
     const [Outbox, setOutbox] = useState([]);
 
     const logout = async () => { 
@@ -31,13 +32,17 @@ export default function MessageCard({eachMessage,refreshFunction}){
     function deleteMessage(event) {
         
         const loggedInUser = localStorage.getItem("user");
-        let userToken;
+        let admintoken;
         let username;
         if (loggedInUser) {
             const foundUser = JSON.parse(loggedInUser);
-            userToken = foundUser?.token;
+            admintoken = foundUser?.token;
             username = foundUser?.username;
 
+            setIsUserLoggedIn(true);
+            
+            console.log(admintoken)
+            console.log(username);
             // console.log(props.senderUsername);
             let userId;
             axios.get(`/api/users/getUserId/${username}`,
@@ -65,9 +70,9 @@ export default function MessageCard({eachMessage,refreshFunction}){
                             let messageId = response.data;
                             if(username === eachMessage.senderUsername){
 
-                                axios.post(`api/messages/deleteOutboxMessage/${userId}/${messageId}`,
+                                axiosPrivate.post(`api/messages/deleteOutboxMessage/${userId}/${messageId}`,
                                 {
-                                    headers: { "Content-Type": "application/json" },
+                                    headers: { "Content-Type": "application/json", Authorization: `Bearer ${admintoken}` },
                                     withCredentials: true,
                                 })
                                 .then((response) => {
@@ -85,9 +90,9 @@ export default function MessageCard({eachMessage,refreshFunction}){
                                 });
                             }
                             else if(username === eachMessage.receiverUsername){
-                                axios.post(`api/messages/deleteInboxMessage/${userId}/${messageId}`,
+                                axiosPrivate.post(`api/messages/deleteInboxMessage/${userId}/${messageId}`,
                                 {
-                                    headers: { "Content-Type": "application/json" },
+                                    headers: { "Content-Type": "application/json" , Authorization: `Bearer ${admintoken}`},
                                     withCredentials: true,
                                 })
                                 .then((response) => {

@@ -60,34 +60,6 @@ export default function MyAuctionSmallCard({ props }) {
         
          
       }
-
-    function deleteAuction(event, id){
-        const loggedInUser = localStorage.getItem("user");
-        let userToken;
-        let username;
-        if (loggedInUser) {
-            const foundUser = JSON.parse(loggedInUser);
-            userToken = foundUser?.token;
-            username = foundUser?.username;
-            console.log(id);
-            axiosPrivate.delete(`/api/auctions/deleteAuction/${id}`,
-                {
-                    headers: { "Content-Type": "application/json", Authorization: `Bearer ${userToken}` },
-                    withCredentials: true,
-                })
-                .then(function (response) {
-                    console.log(response);
-                    // navigateTo(`/OpenSea/Auctions/${id}`, { state: { from: location } })
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    if (error.response.status === 403) { 
-                        logout();
-                        navigateTo('/OpenSea/SignIn', { state: { from: location }, replace: true });
-                    }     
-                });
-        }
-    }
       
 
     
@@ -112,8 +84,6 @@ export default function MyAuctionSmallCard({ props }) {
                 <Link style={{ textDecoration: 'none' }} to="/OpenSea/EditAuction" state={{from: props.itemId}}>
                     <Button variant="primary" className="edit-btn">Edit</Button>
                 </Link>
-
-                <Button classname="button" variant="primary" onClick={event =>deleteAuction(event,props.itemId)}>Delete</Button>
 
             </Card.Body>
         </Card>

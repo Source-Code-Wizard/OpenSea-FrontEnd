@@ -21,6 +21,8 @@ export default function CreateAuction() {
     const { setAuth } = useAuth();
     const markerRef = React.useRef();
     const [position, setPosition] = React.useState([37.983810, 23.727539])
+    const navigateTo = useNavigate();
+    const back = location.state?.from?.pathname || "/OpenSea";
 
     const logout = async () => { 
         setAuth({})
@@ -340,6 +342,10 @@ export default function CreateAuction() {
                 
             <div className="form-group">
                 <button type="submit" class="btn btn-primary btn-lg">Create</button>
+            </div>
+            <div className="form-group">
+            <button type="submit" className="btn btn-primary btn-lg" onClick={() => { navigateTo(back) }}>go back</button>
+
             </div>
 
             {(error !== "") ? (<label>{error}</label>) : ("")}

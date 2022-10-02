@@ -134,6 +134,7 @@ export default function EditAuction(){
             setAuctionCreatedMsg("Auction has been edited successfully!");
         })
         .catch(function (error) {
+            setAuctionCreatedMsg("This auction can't be edited!");
             console.log(error);
             if (error.response.status === 403) { 
                 logout();
@@ -278,13 +279,15 @@ export default function EditAuction(){
             <div className="form-group">
                 <button type="submit" class="btn btn-primary btn-lg">Edit</button>
             </div>
+            <div className="form-group">
+                <button type="submit" className="btn btn-primary btn-lg" onClick={() => { navigateTo(back) }}>go back</button>
 
+            </div>
             {(error !== "") ? (<label>{error}</label>) : ("")}
                 {(serverResponse !== "") ? (<label>{serverResponse}</label>) : ("")}
                 {(AuctionCreatedMsg !== "") ? (<label>{AuctionCreatedMsg}</label>) : ("")}
             </form>
 
-            {/* <button type="submit" className="my_auctions_button" onClick={() => { navigateTo(back) }}>go back</button> */}
         
         </div>
 

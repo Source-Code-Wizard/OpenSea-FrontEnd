@@ -13,6 +13,8 @@ export default function Inbox() {
 
     const [Inbox, setInbox] = useState([]);
     const [isUserLoggedIn, setIsUserLoggedIn] = React.useState();
+    const [count , setCount] = React.useState(0);
+
 
     /* Paging */
     const [currentPage, setCurrentPage] = React.useState(1);
@@ -63,7 +65,7 @@ export default function Inbox() {
                 
             });
         } 
-    }, []);
+    }, [count]);
 
     return(
         < section className="inbox_body">
@@ -72,7 +74,7 @@ export default function Inbox() {
              
             <div>
                 <section className="card_display">
-                    <Messages MessageArray={currentPosts} />
+                    <Messages MessageArray={currentPosts} refreshFunction={setCount}/>
                 </section>
 
                 <li className="my_actions_pagination">
