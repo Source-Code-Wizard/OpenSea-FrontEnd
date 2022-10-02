@@ -6,6 +6,7 @@ import Pagination from "./Pagination";
 import Auctions from "./Auctions";
 import './myauctions.css';
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
+import AuctionsMy from "./AuctionsMy";
 
 export default function MyAuctions(){
     const [myAuctions, setMyAuctions] = useState([]);
@@ -76,7 +77,7 @@ export default function MyAuctions(){
              
             <div>
                 <section className="card_display">
-                    <Auctions AuctionsArray={currentPosts} />
+                    <AuctionsMy AuctionsArray={currentPosts} />
                 </section>
 
                 <li className="my_actions_pagination">

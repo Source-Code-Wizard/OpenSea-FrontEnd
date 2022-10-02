@@ -91,3 +91,9 @@ hr.style1{
     background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
     color: #FFFFFF;
 }
+
+.button{
+    right: 10%;
+    outline: red;
+
+}

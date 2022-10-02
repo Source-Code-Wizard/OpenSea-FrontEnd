@@ -20,6 +20,7 @@ import MessagingStartPage from './components/Messages/MessagingStartPage';
 import Inbox from './components/Messages/Inbox';
 import Outbox from './components/Messages/Outbox';
 import NewMessage from './components/Messages/NewMessage';
+import EditAuction from './components/Auction/EditAuction';
 // import DeleteMessage from './components/Messages/DeleteMessage';
 
 
@@ -61,9 +62,11 @@ function App() {
                     <Route element={<RolesBasedAuth allowedRoles={["ADMIN","SELLER"]} />}>  
                         <Route path='CreateAuction' element={<CreateAuction />} />
                     </Route>
-            
-                    <Route path='MyAuctions' element={<MyAuctions />} />
-            
+
+                    <Route element={<RolesBasedAuth allowedRoles={["ADMIN", "USER"]} />}>
+                      <Route path='MyAuctions' element={<MyAuctions />} />
+                    </Route>
+
                     <Route exact path="Auctions/:id" element={<FullAuction />} />
                     
                     <Route element={<RolesBasedAuth allowedRoles={["ADMIN"]} />}>  
@@ -77,9 +80,14 @@ function App() {
                       <Route path="MessagingStartPage" element={<MessagingStartPage/>} />
                     </Route>
                     <Route path='Inbox' element={<Inbox />} />
+
                     <Route path='Outbox' element={<Outbox />} />
-                    <Route path='NewMessage' element={<NewMessage />} />
-                    {/* <Route path='DeleteMessage' element={<DeleteMessage />} /> */}
+                    <Route element={<RolesBasedAuth allowedRoles={["ADMIN", "USER"]} />}>
+                      <Route path='NewMessage' element={<NewMessage />} />
+                    </Route>
+                    <Route element={<RolesBasedAuth allowedRoles={["ADMIN", "SELLER"]} />}>
+                      <Route path='EditAuction' element={<EditAuction />} />
+                    </Route>
 
 
                 </Route>

@@ -117,3 +117,28 @@ form .txt_field{
 	background: linear-gradient(120deg,#2980b9, #8e44ad);
 	display: block;
 }
+
+.my_auctions_button{
+    display: inline;
+    border-radius: 0.5rem;
+    margin-right: 2%;
+    margin-left: 45%;
+    box-sizing: border-box;
+    font-size: 16px;
+    justify-content: center;
+    padding:1rem 1.75rem;
+    text-decoration: none;
+    width: 7%;
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
+    color: #FFFFFF;
+}
+
+.my_auctions_button:hover{
+    background-image: linear-gradient(-180deg, #FFFFFF 0%, #FFFFFF 100%);
+    color: #37AEE2;
+}

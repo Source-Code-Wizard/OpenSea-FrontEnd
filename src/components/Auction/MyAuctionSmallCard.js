@@ -3,23 +3,26 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import axios, { axiosPrivate } from "../../api/axios";
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate, Link } from 'react-router-dom';
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 import useAuth from "../Authentication/useAuth";
 
 
-export default function AuctionSmallCard({ props }) { 
+export default function MyAuctionSmallCard({ props }) { 
 
 
     const location = useLocation();
     const navigateTo = useNavigate();
     const axiosPrivate = useAxiosPrivate();
     const setAuth = useAuth();
+    console.log(props.itemId);
 
     const logout = async () => { 
         setAuth({})
         localStorage.clear();
     }
+
+    
 
     function trackUserHistory(event, id) {
         //event.preventDefault();
@@ -57,6 +60,34 @@ export default function AuctionSmallCard({ props }) {
         
          
       }
+
+    function deleteAuction(event, id){
+        const loggedInUser = localStorage.getItem("user");
+        let userToken;
+        let username;
+        if (loggedInUser) {
+            const foundUser = JSON.parse(loggedInUser);
+            userToken = foundUser?.token;
+            username = foundUser?.username;
+            console.log(id);
+            axiosPrivate.delete(`/api/auctions/deleteAuction/${id}`,
+                {
+                    headers: { "Content-Type": "application/json", Authorization: `Bearer ${userToken}` },
+                    withCredentials: true,
+                })
+                .then(function (response) {
+                    console.log(response);
+                    // navigateTo(`/OpenSea/Auctions/${id}`, { state: { from: location } })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    if (error.response.status === 403) { 
+                        logout();
+                        navigateTo('/OpenSea/SignIn', { state: { from: location }, replace: true });
+                    }     
+                });
+        }
+    }
       
 
     
@@ -77,6 +108,12 @@ export default function AuctionSmallCard({ props }) {
             </ListGroup>
             <Card.Body>
                 <Button classname="button" variant="primary" onClick={event =>trackUserHistory(event,props.itemId)}>Full details</Button>
+                {/* <Button classname="button" variant="primary" onClick={event =>navigateTo('OpenSea/EditAuction')}>Edit</Button> */}
+                <Link style={{ textDecoration: 'none' }} to="/OpenSea/EditAuction" state={{from: props.itemId}}>
+                    <Button variant="primary" className="edit-btn">Edit</Button>
+                </Link>
+
+                <Button classname="button" variant="primary" onClick={event =>deleteAuction(event,props.itemId)}>Delete</Button>
 
             </Card.Body>
         </Card>

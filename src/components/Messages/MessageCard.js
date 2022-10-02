@@ -48,50 +48,63 @@ export default function MessageCard({eachMessage,refreshFunction}){
                 .then(function(response){
                     console.log(response.data);
                     userId = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    if (error.response.status === 403) { 
-                        logout();
-                        navigateTo('/OpenSea/SignIn', { state: { from: location }, replace: true });
-                    }     
-                });
-                console.log(JSON.stringify(eachMessage));
-            axios.get('/api/messages/getMessageId',
-                {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true,
-                    params: {
-                        senderUsername: eachMessage.senderUsername,
-                        receiverUsername: eachMessage.receiverUsername,
-                        message: eachMessage.message,
-                        dateTime: eachMessage.dateTime
-                    }
-                })
-                .then(function (response) {
-                    console.log(response.data);
-                    let messageId = response.data;
-                    if(username === eachMessage.senderUsername){
-                        // console.log(props.senderUsername);
-                        axios.post(`api/messages/deleteOutboxMessage/${userId}/${messageId}`,
+                    console.log(JSON.stringify(eachMessage));
+                    axios.get('/api/messages/getMessageId',
                         {
                             headers: { "Content-Type": "application/json" },
                             withCredentials: true,
+                            params: {
+                                senderUsername: eachMessage.senderUsername,
+                                receiverUsername: eachMessage.receiverUsername,
+                                message: eachMessage.message,
+                                dateTime: eachMessage.dateTime
+                            }
                         })
-                        .then((response) => {
-                            // setInbox(response.data);
-
-                            refreshFunction(prevState => prevState + 1);
-
+                        .then(function (response) {
                             console.log(response.data);
-                            axios.get(`/api/users/getOutbox/${userId}`).then((response) => {
-                                setOutbox(response.data);
-                                console.log(response.data);
-                            });
-                            // return(
-                            //     response.data
-                            // )
-                            navigateTo(`/OpenSea/Outbox`, { state: { from: location } })
+                            let messageId = response.data;
+                            if(username === eachMessage.senderUsername){
+
+                                axios.post(`api/messages/deleteOutboxMessage/${userId}/${messageId}`,
+                                {
+                                    headers: { "Content-Type": "application/json" },
+                                    withCredentials: true,
+                                })
+                                .then((response) => {
+
+                                    refreshFunction(prevState => prevState + 1);
+
+                                    console.log(response.data);
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                    if (error.response.status === 403) { 
+                                        logout();
+                                        navigateTo('/OpenSea/SignIn', { state: { from: location }, replace: true });
+                                    }     
+                                });
+                            }
+                            else if(username === eachMessage.receiverUsername){
+                                axios.post(`api/messages/deleteInboxMessage/${userId}/${messageId}`,
+                                {
+                                    headers: { "Content-Type": "application/json" },
+                                    withCredentials: true,
+                                })
+                                .then((response) => {
+                                    // setInbox(response.data);
+                                    refreshFunction(prevState => prevState + 1);
+
+                                    console.log(response.data);
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                    if (error.response.status === 403) { 
+                                        logout();
+                                        navigateTo('/OpenSea/SignIn', { state: { from: location }, replace: true });
+                                    }     
+                                });
+                            }
+
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -100,16 +113,6 @@ export default function MessageCard({eachMessage,refreshFunction}){
                                 navigateTo('/OpenSea/SignIn', { state: { from: location }, replace: true });
                             }     
                         });
-                    }
-                    else if(username === eachMessage.receiverUsername){
-                        axios.post(`api/messages/deleteInboxMessage/${userId}/${messageId}`,
-                        {
-                            headers: { "Content-Type": "application/json" },
-                            withCredentials: true,
-                        })
-                        .then((response) => {
-                            // setInbox(response.data);
-                            console.log(response.data);
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -118,17 +121,6 @@ export default function MessageCard({eachMessage,refreshFunction}){
                                 navigateTo('/OpenSea/SignIn', { state: { from: location }, replace: true });
                             }     
                         });
-                    }
-                    // navigateTo(`/OpenSea/Outbox`, { state: { from: location } })
-                    
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    if (error.response.status === 403) { 
-                        logout();
-                        navigateTo('/OpenSea/SignIn', { state: { from: location }, replace: true });
-                    }     
-                });
         }
     }
 
@@ -146,11 +138,9 @@ export default function MessageCard({eachMessage,refreshFunction}){
                 <ListGroup.Item className="message_card-body">From : {eachMessage.senderUsername}</ListGroup.Item>
                 <ListGroup.Item className="message_card-body">Message : {eachMessage.message} </ListGroup.Item>
                 <ListGroup.Item className="message_card-body">Message was sent: {eachMessage.dateTime}</ListGroup.Item>
-
-                {/* <ListGroup.Item className="auctions_card-body">Number of Bids : {props.numOfBids} $</ListGroup.Item> */}
             </ListGroup>
             <Card.Body>
-                <Button variant="primary" className="button" onClick={event =>deleteMessage(event)}>Delete</Button>
+                <Button variant="primary" onClick={event =>deleteMessage(event)}>Delete</Button>
             </Card.Body>
         </Card>
     );
