@@ -91,7 +91,7 @@ export default function MessageCard({eachMessage,refreshFunction}){
                             // return(
                             //     response.data
                             // )
-                            navigateTo(`/OpenSea/Outbox`, { state: { from: location } })
+                           //navigateTo(`/OpenSea/Outbox`, { state: { from: location } })
                         })
                         .catch(function (error) {
                             console.log(error);

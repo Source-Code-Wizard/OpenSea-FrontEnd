@@ -176,11 +176,9 @@ export default function NewMessage(){
             {(error !== "") ? (<label>{error}</label>) : (<label>{MessageSentMsg}</label>)}
                 {(serverResponse !== "") ? (<label>{serverResponse}</label>) : ("")}
                 {/* {(MessageSentMsg !== "") ? (<label>{MessageSentMsg}</label>) : ("")} */}
+                <button type="submit" className="back_button" onClick={() => { navigateTo(from) }}>go back</button>
             </form>
-            <button type="submit" className="back_button" onClick={() => { navigateTo(from) }}>go back</button>
-
-           
-           
+        
         </div>
     )
 }
