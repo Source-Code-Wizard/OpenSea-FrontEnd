@@ -1,5 +1,5 @@
 .messaging_body{
-    margin-top: 13%;
+    margin-top: 5%;
     height: 100vh;
 }
 
@@ -11,7 +11,7 @@
     letter-spacing: -0.04em;
     text-align: center;
     color: #81AFDD;
-    margin-bottom: 10%;
+    margin-bottom: 3%;
 }
 
 .message-buttons{
@@ -22,12 +22,13 @@
     display: inline;
     border-radius: 0.5rem;
     margin-right: 2%;
+    margin-bottom: 3%;
     box-sizing: border-box;
     font-size: 16px;
     justify-content: center;
     padding:1rem 1.75rem;
     text-decoration: none;
-    width: 7%;
+    width: 9%;
     border: 0;
     cursor: pointer;
     user-select: none;
@@ -70,13 +71,14 @@ color: #37AEE2;
     display: inline;
     border-radius: 0.5rem;
     margin-right: 2%;
-    margin-left: 45%;
+    text-align: center;
+    margin-left: 44.6%;
     box-sizing: border-box;
     font-size: 16px;
     justify-content: center;
     padding:1rem 1.75rem;
     text-decoration: none;
-    width: 7%;
+    width: 9%;
     border: 0;
     cursor: pointer;
     user-select: none;

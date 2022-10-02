@@ -105,6 +105,15 @@ export default function MessageCard({eachMessage,refreshFunction}){
                                 });
                             }
 
+                            // console.log(response.data);
+                            // axios.get(`/api/users/getOutbox/${userId}`).then((response) => {
+                            //     setOutbox(response.data);
+                            //     console.log(response.data);
+                            // });
+                            // return(
+                            //     response.data
+                            // )
+                           //navigateTo(`/OpenSea/Outbox`, { state: { from: location } })
                         })
                         .catch(function (error) {
                             console.log(error);
