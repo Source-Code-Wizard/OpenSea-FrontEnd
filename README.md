@@ -9,7 +9,7 @@ OpenSea is a Web application that handles auctions , implemented using Spring bo
 
 ## Appendix
 
-This project is introduced as an assignment for the Web-applications Implementation course (NKUA) with a deadline until 30/9/2022. This project is 90% finished!
+This project is introduced as an assignment for the Web-applications Implementation course (NKUA)!
 
 # Getting Started with Create React App
 
